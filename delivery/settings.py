@@ -217,13 +217,13 @@ JAZZMIN_SETTINGS = {
     "site_title": "Shipment Admin",
     
     # Title on the login screen
-    "site_header": "SwiftShip Admin",
+    "site_header": "Eco Global Admin",
     
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to SwiftShip Administration",
+    "welcome_sign": "Welcome to EcoGlobal Administration",
     
     # Copyright on the footer
-    "copyright": "SwiftShip Ltd",
+    "copyright": "Eco Global Ltd",
     
     # Field name on user model that contains avatar image
     "user_avatar": None,
