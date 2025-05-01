@@ -42,6 +42,8 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ('type', 'status', 'country')
     search_fields = ('id', 'name', 'company', 'email')
     date_hierarchy = 'join_date'
+    readonly_fields = ('id', 'created_at', 'updated_at')
+
 
 
 class TrackingEventInline(admin.TabularInline):

@@ -66,17 +66,20 @@ class ShipmentSerializer(serializers.ModelSerializer):
         write_only=True, queryset=Customer.objects.all(), source='customer'
     )
     tracking_events = TrackingEventSerializer(many=True, read_only=True)
-    
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Shipment
         fields = [
             'id', 'customer', 'customer_id', 'origin', 'origin_address',
             'destination', 'destination_address', 'status', 'date',
             'estimated_delivery', 'weight', 'dimensions', 'service',
-            'destination_phone_number', 'destination_email',
+            'destination_phone_number', 'destination_email', 'destination_name', 'image',
             'created_at', 'updated_at', 'tracking_events'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']        
+        read_only_fields = ['id', 'created_at', 'updated_at']     
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None   
 # class ShipmentSerializer(serializers.Serializer):
 #     STATUS_CHOICES = (
 #         ('Processing', 'Processing'),

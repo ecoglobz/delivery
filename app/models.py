@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 class Customer(models.Model):
     CUSTOMER_TYPES = (
@@ -151,10 +152,12 @@ class Shipment(models.Model):
     origin = models.CharField(max_length=100)
     origin_address = models.TextField()
     destination = models.CharField(max_length=100)
+    destination_name = models.CharField(max_length=100)
     destination_address = models.TextField()
     destination_phone_number = models.CharField(max_length=20, blank=True, null=True)
     destination_email = models.EmailField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Processing')
+    image = CloudinaryField('image', blank=True, null=True)
     date = models.DateField(default=timezone.now)
     estimated_delivery = models.DateField(null=True, blank=True)
     weight = models.DecimalField(max_digits=10, decimal_places=2)

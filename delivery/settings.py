@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -340,3 +341,11 @@ JAZZMIN_SETTINGS = {
     # Add a language dropdown into the admin
     "language_chooser": False,
 }
+
+
+cloudinary.config( 
+    cloud_name = "dqu9vnmws", 
+    api_key = "688649552653147", 
+    api_secret = "t5fTWSncfkRnKx5a3wMP-1TOflc", # Click 'View API Keys' above to copy your API secret
+    secure=True
+)
