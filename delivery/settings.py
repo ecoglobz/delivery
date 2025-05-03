@@ -107,10 +107,20 @@ WSGI_APPLICATION = 'delivery.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'delivery_8ht2',  # Use environment variable for security
+        'USER': 'delivery_8ht2_user',
+        'PASSWORD': 'X39pgnHrA4U3PqglzwuH7m4zXi2d4gkI',
+        'HOST': 'dpg-d0b89u9r0fns73d810bg-a.oregon-postgres.render.com',
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
