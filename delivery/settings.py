@@ -380,3 +380,19 @@ cloudinary.config(
     api_secret = "t5fTWSncfkRnKx5a3wMP-1TOflc", # Click 'View API Keys' above to copy your API secret
     secure=True
 )
+
+
+# Enable this for local dev with different ports like 3000
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",  # your frontend origin
+]
+
+# Also, make sure this is enabled if using cross-origin fetches:
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+# Optional: If you're using session-based auth across origins
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False  # T
