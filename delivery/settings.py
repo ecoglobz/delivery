@@ -395,6 +395,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.ecoglobaldelivery.com/"
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Also, make sure this is enabled if using cross-origin fetches:
 
 
