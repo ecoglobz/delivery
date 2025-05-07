@@ -75,16 +75,34 @@ ASGI_APPLICATION = 'delivery.asgi.application'
 #     },
 # }
 
+# Allow unauthenticated access to WebSocket
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # For development
-        # For production, use Redis:
-        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        # 'CONFIG': {
-        #     "hosts": [('127.0.0.1', 6379)],
-        # },
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("127.0.0.1", 6379)],
+            "channel_capacity": {
+                "http.request": 1000,
+                "websocket.send*": 1000,
+            },
+        },
     },
 }
+
+# Django Admin hardening
+ADMIN_SITE_HEADER = "Your Company Admin"
+ADMIN_SITE_TITLE = "Customer Support Portal"
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',  # For development
+#         # For production, use Redis:
+#         # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         # 'CONFIG': {
+#         #     "hosts": [('127.0.0.1', 6379)],
+#         # },
+#     },
+# }
 
 TEMPLATES = [
     {
@@ -179,6 +197,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'assets'
+STATICFILES_DIRS = [
+    BASE_DIR / "chat" / "static",  # assuming your app is named 'chat'
+]
 
 
 STORAGES = {
