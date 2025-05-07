@@ -148,9 +148,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:3002",
     "https://delivery-eight-ashy.vercel.app",
-    "ecoglobaldelivery.com",
+    "http://ecoglobaldelivery.com",
     "https://ecoglobaldelivery.com",
-    "https://www.ecoglobaldelivery.com/"
+    "https://www.ecoglobaldelivery.com"
 
 ]
 CORS_ALLOW_CREDENTIALS = True
@@ -169,6 +169,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "authorization",
 ]
+
 
 
 # Password validation
@@ -396,9 +397,9 @@ cloudinary.config(
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # your frontend origin
     "https://delivery-eight-ashy.vercel.app",
-    "ecoglobaldelivery.com",
+    "http://ecoglobaldelivery.com",
     "https://ecoglobaldelivery.com",
-    "https://www.ecoglobaldelivery.com/"
+    "https://www.ecoglobaldelivery.com"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

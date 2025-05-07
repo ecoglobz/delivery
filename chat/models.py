@@ -42,9 +42,14 @@
 # chat/models.py
 from django.db import models
 
+
 class ChatSession(models.Model):
     email = models.EmailField()  # Visitor's email for the chat session
     created = models.DateTimeField(auto_now_add=True)
+    admin_display_name = models.CharField(
+        max_length=100, blank=True, null=True,
+        help_text="Custom name for the admin/support agent in this session"
+    )
 
     def __str__(self):
         return f"ChatSession {self.id} ({self.email})"

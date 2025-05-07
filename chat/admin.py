@@ -247,7 +247,8 @@ from .models import ChatSession, Message
 
 class ChatSessionAdmin(admin.ModelAdmin):
     change_form_template = "admin/chat/chatsession/change_form.html"
-    list_display = ("email", "created")
+    list_display = ('id', 'admin_display_name', 'created', 'email')
+    fields = ('admin_display_name', 'created')
     readonly_fields = ("email", "created")
 
     def get_urls(self):
@@ -273,6 +274,7 @@ class ChatSessionAdmin(admin.ModelAdmin):
         session = ChatSession.objects.get(id=session_id)
         data = {
             "email": session.email,
+            "admin_name": session.admin_display_name,
             "messages": [
                 {
                     "id": m.id,

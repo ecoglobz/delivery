@@ -35,6 +35,7 @@ from .models import ChatSession, Message
 
 @csrf_exempt
 def messages_api(request):
+    print("API TEST")
     # Allow preflight OPTIONS request for CORS
     if request.method == "OPTIONS":
         response = HttpResponse(status=200)
@@ -71,9 +72,11 @@ def messages_api(request):
         msg = Message.objects.create(chat=session, sender='visitor', content=content)
         response_data = {
             "session_id": session.id,
+            "admin_display_name": session.admin_display_name,
             "message_id": msg.id,
             "timestamp": msg.timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
         }
+        
         response = JsonResponse(response_data)
         response["Access-Control-Allow-Origin"] = "*"  # allow cross-site
         return response
@@ -88,7 +91,6 @@ def messages_api(request):
             session = ChatSession.objects.get(id=session_id)
         except ChatSession.DoesNotExist:
             return JsonResponse({"error": "Invalid session"}, status=404)
-
         # Query messages for this session. If last_id is provided, get messages with greater IDs (newer messages).
         msgs_query = Message.objects.filter(chat=session)
         if last_id:
@@ -108,7 +110,7 @@ def messages_api(request):
                 "content": m.content,
                 "timestamp": m.timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
             })
-        response = JsonResponse({"messages": messages_data})
+        response = JsonResponse({"messages": messages_data, "admin_display_name": session.admin_display_name or "Support Agent"})
         response["Access-Control-Allow-Origin"] = "*"
         return response
 

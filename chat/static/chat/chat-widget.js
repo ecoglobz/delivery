@@ -689,6 +689,7 @@
   let pollingInterval = null;
   let isAdmin = false; // Flag to track if the current user is an admin
   const processedMessageIds = new Set(); // Track processed message IDs to prevent duplicates
+  let adminDisplayName = "Support Agent";
 
   // Function to format the current time
   function formatTime() {
@@ -706,10 +707,12 @@
 
     const msgDiv = createEl("div", { class: "message " + sender });
 
+    console.log("ADMIN", adminDisplayName);
+
     // Add sender label with role badge
     const senderLabel = createEl("div", { class: "message-sender" });
     if (sender === "admin") {
-      senderLabel.textContent = "Support Agent";
+      senderLabel.textContent = adminDisplayName;
       const badge = createEl("span", {
         class: "role-badge admin",
         text: "STAFF",
@@ -769,6 +772,8 @@
         .then((response) => response.json())
         .then((data) => {
           if (data.messages && data.messages.length > 0) {
+            console.log("MESSAGES", data);
+
             // Filter out messages we've already processed
             const newMessages = data.messages.filter(
               (msg) => !processedMessageIds.has(msg.id)
@@ -819,7 +824,11 @@
           }
 
           // Check if user is admin (if the server provides this info)
+          if (data.admin_display_name) {
+            adminDisplayName = data.admin_display_name;
+          }
           if (data.is_admin !== undefined) {
+            console.log("IS ADMIN", data);
             isAdmin = data.is_admin;
             updateUIForRole();
           }
