@@ -147,6 +147,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
+    "https://delivery-eight-ashy.vercel.app",
+    "ecoglobaldelivery.com",
+    "https://ecoglobaldelivery.com",
+    "https://www.ecoglobaldelivery.com/"
 
 ]
 CORS_ALLOW_CREDENTIALS = True
@@ -385,12 +389,14 @@ cloudinary.config(
 # Enable this for local dev with different ports like 3000
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",  # your frontend origin
+    "https://delivery-eight-ashy.vercel.app",
+    "ecoglobaldelivery.com",
+    "https://ecoglobaldelivery.com",
+    "https://www.ecoglobaldelivery.com/"
 ]
 
 # Also, make sure this is enabled if using cross-origin fetches:
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+
 
 # Optional: If you're using session-based auth across origins
 CSRF_COOKIE_SAMESITE = "Lax"
