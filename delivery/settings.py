@@ -403,4 +403,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Optional: If you're using session-based auth across origins
 CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = False  # T
+CSRF_COOKIE_SECURE = True  # T
