@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from datetime import timedelta
-from .models import Customer, Shipment, TrackingEvent, Activity
+from .models import Customer, Shipment, TrackingEvent, Activity, TrackingLog
 from .serializer import (
     CustomerSerializer, ShipmentSerializer, 
     TrackingEventSerializer, ActivitySerializer,
@@ -210,8 +210,62 @@ class ShipmentTrackingView(APIView):
     """
     def get(self, request, tracking_id):
         shipment = Shipment.get_shipment_by_tracking_id(tracking_id)
+        print("SHIPMENTS", shipment)
         if shipment:
+            # --- IP Address ---
+            ip_address = request.META.get("HTTP_X_FORWARDED_FOR")
+            if ip_address:
+                ip_address = ip_address.split(",")[0]
+            else:
+                ip_address = request.META.get("REMOTE_ADDR")
+
+            # --- User Agent ---
+            user_agent = request.META.get("HTTP_USER_AGENT", "")
+
+            print("=========USER", user_agent)
+            print("========IPADDRESS", ip_address)
+            # --- Basic Parsing ---
+            browser = "Unknown"
+            os = "Unknown"
+            device_type = "PC"
+
+            if "Mobile" in user_agent:
+                device_type = "Mobile"
+            if "Tablet" in user_agent:
+                device_type = "Tablet"
+
+            if "Chrome" in user_agent:
+                browser = "Chrome"
+            elif "Firefox" in user_agent:
+                browser = "Firefox"
+            elif "Safari" in user_agent and "Chrome" not in user_agent:
+                browser = "Safari"
+            elif "Edge" in user_agent:
+                browser = "Edge"
+
+            if "Windows" in user_agent:
+                os = "Windows"
+            elif "Macintosh" in user_agent:
+                os = "macOS"
+            elif "Linux" in user_agent:
+                os = "Linux"
+            elif "Android" in user_agent:
+                os = "Android"
+            elif "iPhone" in user_agent or "iPad" in user_agent:
+                os = "iOS"
+
+            # --- Save to log ---
+            TrackingLog.objects.create(
+                tracking_number=tracking_id,
+                ip_address=ip_address,
+                browser=browser,
+                os=os,
+                device_type=device_type,
+                user_agent=user_agent
+            )
+
             serializer = ShipmentSerializer(shipment)
+            print("ssss", serializer.data)
             return Response(serializer.data)
         return Response({"detail": "Shipment not found"}, status=status.HTTP_404_NOT_FOUND)
     

@@ -1,59 +1,58 @@
-{% extends "admin/change_form.html" %}
-{% block extrahead %}
+{% load static %} {% extends "admin/change_form.html" %} {% block extrahead %}
 {{ block.super }}
 <style>
-#chat-header {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 0.5rem;
-}
-#chat-log {
-  max-height: 400px;
-  overflow-y: scroll;
-  border: 1px solid #ccc;
-  padding: 1em;
-  background: #fff;
-  margin-bottom: 1em;
-  border-radius: 8px;
-}
-.msg-visitor {
-  background: #f1f1f1;
-  color: #000;
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin: 6px 0;
-  max-width: 80%;
-  display: inline-block;
-}
-.msg-admin {
-  background: #007bff;
-  color: white;
-  padding: 10px 12px;
-  border-radius: 8px;
-  margin: 6px 0;
-  max-width: 80%;
-  display: inline-block;
-  margin-left: auto;
-  text-align: right;
-}
-.msg-wrapper {
-  display: flex;
-  flex-direction: column;
-}
+  #chat-header {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+  }
+  #chat-log {
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 1em;
+    background: #fff;
+    margin-bottom: 1em;
+    border-radius: 8px;
+  }
+  .msg-visitor {
+    background: #f1f1f1;
+    color: #000;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 6px 0;
+    max-width: 80%;
+    display: inline-block;
+  }
+  .msg-admin {
+    background: #007bff;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 6px 0;
+    max-width: 80%;
+    display: inline-block;
+    margin-left: auto;
+    text-align: right;
+  }
+  .msg-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
 </style>
 <script>
-let lastMessageCount = 0;
-let visitorEmail = "";
-function getSendUrl() {
-  return window.location.pathname.replace(/change\/$/, 'send/');
-}
-function getMessagesUrl() {
-  return window.location.pathname.replace(/change\/$/, 'messages/');
-}
-function fetchMessages(playSound = false) {
+  let lastMessageCount = 0;
+  let visitorEmail = "";
+  function getSendUrl() {
+    return window.location.pathname.replace(/change\/$/, "send/");
+  }
+  function getMessagesUrl() {
+    return window.location.pathname.replace(/change\/$/, "messages/");
+  }
+  function fetchMessages(playSound = false) {
     fetch(getMessagesUrl())
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const chatLog = document.getElementById("chat-log");
         const emailHeader = document.getElementById("chat-header");
         if (data.email) {
@@ -61,44 +60,45 @@ function fetchMessages(playSound = false) {
         }
         if (data.messages.length !== lastMessageCount) {
           chatLog.innerHTML = "";
-          data.messages.forEach(msg => {
+          data.messages.forEach((msg) => {
             const wrapper = document.createElement("div");
             wrapper.className = "msg-wrapper";
             const div = document.createElement("div");
-            div.className = msg.sender === "admin" ? "msg-admin" : "msg-visitor";
+            div.className =
+              msg.sender === "admin" ? "msg-admin" : "msg-visitor";
             div.textContent = `[${msg.timestamp}] ${msg.content}`;
             wrapper.appendChild(div);
             chatLog.appendChild(wrapper);
           });
           chatLog.scrollTop = chatLog.scrollHeight;
           if (playSound && data.messages.length > lastMessageCount) {
-            new Audio("https://www.soundjay.com/button/beep-07.wav").play();
+            new Audio("{% static 'chat/sounds/notification.wav' %}").play();
           }
           lastMessageCount = data.messages.length;
         }
       });
-}
-function sendMessage() {
+  }
+  function sendMessage() {
     const input = document.getElementById("reply-input");
     const content = input.value.trim();
     if (!content) return;
     fetch(getSendUrl(), {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "content=" + encodeURIComponent(content)
+      body: "content=" + encodeURIComponent(content),
     }).then(() => {
       input.value = "";
       fetchMessages();
     });
-}
-setInterval(() => fetchMessages(true), 3000);
-document.addEventListener("DOMContentLoaded", () => fetchMessages());
+  }
+  setInterval(() => fetchMessages(true), 3000);
+  document.addEventListener("DOMContentLoaded", () => fetchMessages());
 </script>
-{% endblock %}
-{% block after_related_objects %}
+{% endblock %} {% block after_related_objects %}
 <div id="chat-header"></div>
 <div id="chat-log"></div>
-<textarea id="reply-input" style="width:100%; height:50px;"></textarea><br>
-<button type="button" class="default" onclick="sendMessage()">Send Reply</button>
+<textarea id="reply-input" style="width: 100%; height: 50px"></textarea><br />
+<button type="button" class="default" onclick="sendMessage()">
+  Send Reply
+</button>
 {% endblock %}
-

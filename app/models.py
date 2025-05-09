@@ -688,3 +688,16 @@ class Activity(models.Model):
         count = old_activities.count()
         old_activities.delete()
         return count
+    
+
+class TrackingLog(models.Model):
+    tracking_number = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField()
+    browser = models.CharField(max_length=100)
+    os = models.CharField(max_length=100)
+    device_type = models.CharField(max_length=20)  # e.g., "Mobile", "Tablet", "PC"
+    user_agent = models.TextField()
+
+    def __str__(self):
+        return f"{self.tracking_number} from {self.ip_address} at {self.timestamp}"

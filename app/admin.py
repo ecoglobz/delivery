@@ -34,7 +34,7 @@
 
 from django.contrib import admin
 from django.utils import timezone
-from .models import Shipment, TrackingEvent, Activity, Customer
+from .models import Shipment, TrackingEvent, Activity, Customer, TrackingLog
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -112,3 +112,8 @@ class ActivityAdmin(admin.ModelAdmin):
     
     def has_change_permission(self, request, obj=None):
         return False
+
+
+@admin.register(TrackingLog)
+class TrackingLogAdmin(admin.ModelAdmin):
+    pass
