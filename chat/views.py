@@ -32,6 +32,11 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import ChatSession, Message
+from django.core.mail import send_mail
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def messages_api(request):
@@ -57,6 +62,7 @@ def messages_api(request):
         if not content:
             return JsonResponse({"error": "Empty message content"}, status=400)
 
+        
         # If no session_id provided, create a new ChatSession (requires an email)
         if not session_id:
             if not email:
@@ -70,6 +76,26 @@ def messages_api(request):
 
         # Save the visitor's message
         msg = Message.objects.create(chat=session, sender='visitor', content=content)
+
+        logger.info(f"Message received from {session.email}. Notified? {session.notified}")
+
+        if not session.notified:
+            logger.info("Sending notification email...")
+
+            try:
+                send_mail(
+                    subject="New Chat Message from Website",
+                    message=f"New message from {session.email}:\n\n{content}",
+                    from_email=session.email,
+                    recipient_list=["globaldeliveryeco@gmail.com"],
+                    fail_silently=False,
+                )
+                session.notified = True
+                session.save()
+                logger.info("Email sent successfully.")
+            except Exception as e:
+                logger.error(f"Email sending failed: {e}")
+
         response_data = {
             "session_id": session.id,
             "admin_display_name": session.admin_display_name,

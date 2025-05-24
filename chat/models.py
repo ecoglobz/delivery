@@ -50,6 +50,7 @@ class ChatSession(models.Model):
         max_length=100, blank=True, null=True,
         help_text="Custom name for the admin/support agent in this session"
     )
+    notified = models.BooleanField(default=False, help_text="Whether the admin has been notified of this session")
 
     def __str__(self):
         return f"ChatSession {self.id} ({self.email})"

@@ -409,13 +409,19 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.ecoglobaldelivery.com'
+# EMAIL_HOST = 'mail.ecoglobaldelivery.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'dubai@ecoglobaldelivery.com'
+# EMAIL_HOST_PASSWORD = 'UGAYbEMvshX9CkanBmqv'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'dubai@ecoglobaldelivery.com'
-EMAIL_HOST_PASSWORD = 'UGAYbEMvshX9CkanBmqv'
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = 'globaldeliveryeco@gmail.com'
+EMAIL_HOST_PASSWORD = 'atwpxqstftjfcrbi'
+DEFAULT_FROM_EMAIL = 'globaldeliveryeco@gmail.com'
+EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Also, make sure this is enabled if using cross-origin fetches:
 
