@@ -134,10 +134,10 @@ WSGI_APPLICATION = 'delivery.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'deliver_lzo9',  # Use environment variable for security
-        'USER': 'deliver_lzo9_user',
-        'PASSWORD': 'u67XwW44ZJpD6WuHurd8JFQmICO1WTrQ',
-        'HOST': 'dpg-d3dfn5mr433s73e92sc0-a.oregon-postgres.render.com',
+        'NAME': 'deliver_opav',  # Use environment variable for security
+        'USER': 'deliver_opav_user',
+        'PASSWORD': 'y8A7Q6qtdel7hGtdmlxuv1JpYevtrzE7',
+        'HOST': 'dpg-d3v2gnbipnbc739b92bg-a.oregon-postgres.render.com',
         'PORT': '5432',  # Default PostgreSQL port
     }
 }
